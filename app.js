@@ -10,36 +10,19 @@ const chalk = require('chalk');
 const errorHandler = require('errorhandler');
 const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
 const path = require('path');
 const mongoose = require('mongoose');
-
-const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const _ = require('lodash');
+const fs = require('fs');
+
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.load({ path: '.env.example' });
 
-/**
- * Controllers (route handlers).
- */
-const homeController = require('./controllers/home');
-const calendarController = require('./controllers/calendar');
-
-/**
- * Create Express server.
- */
-const app = express();
-
-/**
- * Connect to MongoDB.
- */
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('error', (err) => {
@@ -48,14 +31,14 @@ mongoose.connection.on('error', (err) => {
   process.exit();
 });
 
-/**
- * Express configuration.
- */
+/*
+ * Setup app express
+*/
+const app = express();
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(expressStatusMonitor());
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -65,24 +48,29 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(flash());
-
-
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-/**
- * Primary app routes.
- */
-app.get('/', homeController.index);
 
-/**
- * Google calendar callback
- */
-app.get('/calendar/oauth2_callback', calendarController.oauth_callback);
+/*
+ * Load module routes
+*/
 
-/**
- * Error Handler.
- */
+console.log('---- Load all modules ----');
+
+var dirs = _.filter(fs.readdirSync(path.join(__dirname, 'modules')), function (file) {
+	return fs.statSync(path.join(path.join(__dirname, 'modules'), file)).isDirectory();
+});
+
+_.forEach(dirs, (moduleDir) => {
+  var moduleDirPath = path.join(__dirname, "modules");
+  moduleDirPath = path.join(moduleDirPath, moduleDir);
+
+  var module = require(path.join(moduleDirPath, 'index.js'))
+  module.setup(app);
+  
+  console.log(module.name + ' loaded.')
+});
+
 app.use(errorHandler());
 
 /**

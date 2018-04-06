@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4DA5F4">
+    <meta name="csrf-token">
+    <title>Holistics Support</title>
+    <link rel="shortcut icon" href="/favicon.png">
+
+</head>
+
+<body>
+<h1>Logic for supporting</h1>
+<p>
+    Every day need to have one develop to do support. Deploy need to be done in Tuesday or Thursday
+</p>
+
+    <div id="new_event">
+        <h1>Add new event to Holistics Calendar</h1>
+      <label>Date</label>
+      <input v-model="date">
+
+      <label>Event Name</label>
+      <input v-model="description">
+
+      <label>Email</label>
+      <select v-model="email">
+          <option v-for="member in members" v-bind:value="member.email">
+            {{ member.name }}
+          </option>
+    </select>
+      <button v-on:click='submit'>Submit</button>
+    </div>
+
+    <h1>Holistics Support List</h1>
+    <div id="app">
+      <ol>
+        <li v-for="event in support_events">
+          {{event.start.day}} | {{ event.start.date }} | {{event.summary}}
+        </li>
+      </ol>
+    </div>
+
+    <h1>Holistics Deploy List</h1>
+    <div id="app2">
+      <ol>
+        <li v-for="event in deploy_events">
+          {{event.start.day}} - {{ event.start.date }} - {{event.summary}}
+        </li>
+      </ol>
+    </div>
+
+    <h1>Holistics List Of Supporter</h1>
+    <div id="app3">
+      <ol>
+        <li v-for="member in members">
+          {{member.name}} - {{ member.email }}
+        </li>
+      </ol>
+    </div>
+
+    <script src="/js/lib/jquery-3.1.1.min.js"></script>
+    <script src="/js/lib/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
+
+    <!--Module's public-->
+    <script src="/holistics_support/public/js/main.js"></script>
+</body>
+
+</html>

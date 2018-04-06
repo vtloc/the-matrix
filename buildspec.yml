@@ -29,7 +29,5 @@ artifacts:
     - scripts/*
     - node_modules/**/*
     - public/**/*
-    - controllers/**/*
-    - models/**/*
-    - views/**/*
+    - modules/**/*
     - .env.example
