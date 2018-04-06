@@ -25,7 +25,6 @@ artifacts:
     - README.md
     - package.json
     - app.js
-    - .env.example
     - appspec.yml
     - scripts/*
     - node_modules/**/*
@@ -33,3 +32,4 @@ artifacts:
     - controllers/**/*
     - models/**/*
     - views/**/*
+    - .env.example
