@@ -56,6 +56,6 @@
     "npm": ">=5.6.0"
   },
   "scripts": {
-    "test": "mocha --recursive modules --exit"
+    "test": ""
   }
 }
