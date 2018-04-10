@@ -21,7 +21,7 @@ exports.listAll = (req, res) => {
 
   db.notifications.loadDatabase(function (err) {    // Callback is optional
     db.notifications.find({}, function(err, docs) {
-      console.log('Loaded notifications from database');
+      // console.log('Loaded notifications from database');
 
       res.send(JSON.stringify({notifications: docs}));
     });

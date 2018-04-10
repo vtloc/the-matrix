@@ -8,8 +8,6 @@ const OAuth2 = google.auth.OAuth2;
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = path.join(__dirname, 'credentials.json');
-const HOLISTICS_SUPPORT_CALENDAR = "holistics.io_mij96drf0tmf3p0pv91pmk7c3s@group.calendar.google.com";
-
 
 
 
@@ -189,3 +187,17 @@ function listCalendar(auth) {
     console.log(data);
   });
 }
+
+function demo() {
+  var secretPath = path.join(__dirname, 'client_secret.json')
+  fs.readFile(secretPath, (err, content) => {
+    if (err) {
+      console.log(err);
+      return console.log('Error loading client secret file:', err);
+    }
+
+    // Authorize a client with credentials, then call the Google Drive API.
+    authorize(JSON.parse(content), listCalendar);
+  });
+}
+demo();

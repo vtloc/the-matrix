@@ -1,4 +1,4 @@
-const CalendarService = require('./service_gcalendar');
+const CalendarService = require('../google_services/gcalendar');
 const NotificationService = require('../notifications/services');
 const HOLISTICS_SUPPORT_CALENDAR = "holistics.io_mij96drf0tmf3p0pv91pmk7c3s@group.calendar.google.com";
 

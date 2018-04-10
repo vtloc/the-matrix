@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4DA5F4">
+    <meta name="csrf-token">
+    <title>Holistics Recruitment</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <h1>Upcoming Interviews</h1>
+
+            <div id="app">
+              <ol>
+                <li v-for="event in interview_events">
+                  {{event.start.day}} | {{ event.start.date }} | {{event.summary}}
+                </li>
+              </ol>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+    <script src="/js/lib/jquery-3.1.1.min.js"></script>
+    <script src="/js/lib/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
+
+    <!--Module's public-->
+    <script src="/holistics_recruitment/public/js/main.js"></script>
+</body>
+
+</html>
