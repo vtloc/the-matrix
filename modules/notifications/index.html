@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4DA5F4">
+    <meta name="csrf-token">
+    <title>Notifications</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body>
+  
+
+  <div id="app" class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+         <h1>Notifications</h1>
+        <button type="button" class="btn btn-success" v-on:click="trigger">
+          Trigger All
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+    <ol>
+          <li v-for="notif in notifications">
+            <a :href="notif.link">[{{notif.source}}] - {{notif.message}}</a> 
+          </li>      
+    </ol>
+    </div>
+
+  </div>
+
+  
+
+
+    <script src="/js/lib/jquery-3.1.1.min.js"></script>
+    <script src="/js/lib/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
+
+    <!--Module's public-->
+    <script src="/notifications/public/js/main.js"></script>
+</body>
+
+</html>

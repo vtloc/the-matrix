@@ -9,7 +9,7 @@
     <meta name="csrf-token">
     <title>Holistics Support</title>
     <link rel="shortcut icon" href="/favicon.png">
-
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
 
 <body>
@@ -18,24 +18,21 @@
     Every day need to have one develop to do support. Deploy need to be done in Tuesday or Thursday
 </p>
 
-    <div id="new_event">
-        <h1>Add new event to Holistics Calendar</h1>
-      <label>Date</label>
-      <input v-model="date">
+<div id="notifications">
+  <div v-if="has_notification" class="alert alert-danger alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+      ×
+    </button>
+    <h4>
+      Alert!
+    </h4> <strong>Warning!</strong>
+  </div>
+</div>
 
-      <label>Event Name</label>
-      <input v-model="description">
-
-      <label>Email</label>
-      <select v-model="email">
-          <option v-for="member in members" v-bind:value="member.email">
-            {{ member.name }}
-          </option>
-    </select>
-      <button v-on:click='submit'>Submit</button>
-    </div>
-
-    <h1>Holistics Support List</h1>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+          <h1>Holistics Support List</h1>
     <div id="app">
       <ol>
         <li v-for="event in support_events">
@@ -52,15 +49,46 @@
         </li>
       </ol>
     </div>
+        </div>
 
-    <h1>Holistics List Of Supporter</h1>
-    <div id="app3">
-      <ol>
-        <li v-for="member in members">
-          {{member.name}} - {{ member.email }}
-        </li>
-      </ol>
+        <div class="col-md-8">
+          <div id="new_event">
+              <h1>Add new event to Holistics Calendar</h1>
+
+              <p>Next available date: {{next_date.format('DD-MMM-YYYY dddd')}}</p>
+            <label>Date</label>
+            <input v-model="date">
+
+            <label>Event Name</label>
+            <input v-model="description">
+
+            <label>Email</label>
+            <select v-model="email">
+                <option v-for="member in members" v-bind:value="member.email">
+                  {{ member.name }}
+                </option>
+            </select>
+            <button v-on:click='submit'>Submit</button>
+          </div>
+
+          <h1>Holistics List Of Supporter</h1>
+            <div id="app3">
+              <ol>
+                <li v-for="member in members">
+                  {{member.name}} - {{ member.email }}
+                </li>
+              </ol>
+            </div>
+        </div>
+
     </div>
+
+  </div>
+    
+
+    
+
+    
 
     <script src="/js/lib/jquery-3.1.1.min.js"></script>
     <script src="/js/lib/bootstrap.min.js"></script>

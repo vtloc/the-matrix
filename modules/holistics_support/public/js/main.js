@@ -44,9 +44,10 @@ var app3 = new Vue({
 	}
 })
 
-var Vue2 = new Vue({
+var App_InsertEvent = new Vue({
 	el: '#new_event',
 	data: {
+		next_date: '',
 		date: '',
 		description: '',
 		email: '',
@@ -75,11 +76,31 @@ var Vue2 = new Vue({
 	}
 })
 
+var App_Notifications = new Vue({
+	el: '#notifications',
+	data: {
+		has_notification: false,
+		notifications: []
+	}
+})
+
+function getNotifications() {
+	Vue.http.get('/holistics_support/notifications', {}).then(function(data) {
+		console.log(data);
+
+		App_Notifications.notifications = data.notifications;
+		if(data.notifications && data.notifications.length > 0)
+			App_Notifications.has_notification = true;
+
+	}, function(error) {
+		console.log(error)
+	});
+}
 
 function reloadSupportEvent() {
 	app.support_events = []
 
-	Vue.http.get('/holistics_support/events?q=Support', {}).then(function(data) {
+	Vue.http.get('/holistics_support/events?q=Support&t='+(new Date()), {}).then(function(data) {
 		console.log(data);
 
 		for(var i=0; i<data.body.length; i++)
@@ -92,6 +113,19 @@ function reloadSupportEvent() {
 		}
 
 		//app.events = data.body;
+
+		// Identify the last date
+		var lastDate = data.body[data.body.length-1].start.date;
+		var nextDate;
+
+		if(moment(lastDate).format('dddd') == "Friday")
+			nextDate = moment(lastDate).add(3, 'd');
+		else
+			nextDate = moment(lastDate).add(1, 'd');
+
+		App_InsertEvent.next_date = moment(nextDate);
+		App_InsertEvent.date = App_InsertEvent.next_date.format('YYYY-MM-DD');
+
 	}, function(error) {
 		console.log(error)
 	});
@@ -100,7 +134,7 @@ function reloadSupportEvent() {
 function reloadDeployEvent() {
 	app2.deploy_events = []
 
-	Vue.http.get('/holistics_support/events?q=Deploy', {}).then(function(data) {
+	Vue.http.get('/holistics_support/events?q=Deploy&t='+(new Date()), {}).then(function(data) {
 		console.log(data);
 
 		for(var i=0; i<data.body.length; i++)
@@ -123,4 +157,5 @@ function reloadDeployEvent() {
 window.onload = function() {
 	reloadSupportEvent();
 	reloadDeployEvent();
+	getNotifications();
 }
