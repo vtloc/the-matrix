@@ -63,6 +63,9 @@ var App_InsertEvent = new Vue({
 
 			Vue.http.post('/holistics_support/events', body).then(function(data) {
 				console.log(data);
+
+				reloadSupportEvent();
+				reloadDeployEvent();
 			}, function(error) {
 				console.log(error)
 			});
@@ -70,8 +73,7 @@ var App_InsertEvent = new Vue({
 			this.date = '';
 			this.description = '';
 			this.email = '';
-			reloadSupportEvent();
-			reloadDeployEvent();
+			
 		}
 	}
 })
