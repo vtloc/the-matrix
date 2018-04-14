@@ -3,8 +3,17 @@ const path = require('path');
 const request = require('request'); 
 const SLACK_CHANNEL_HOOKS = {
 	"loc_test" : "https://hooks.slack.com/services/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",
-	"grokking_assistant": "https://hooks.slack.com/services/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"
+	"grokking_assistant": "https://hooks.slack.com/services/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",
+	"content": "https://hooks.slack.com/services/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",
+	"general": "https://hooks.slack.com/services/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",
+	"random": "https://hooks.slack.com/services/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"
 };
+const CHANNELS = [
+	"grokking_assistant",
+	"general",
+	"content",
+	"random"
+];
 const NotificationService = require('../notifications/services');
 
 /*
@@ -56,7 +65,7 @@ exports.send_message = (req, res) => {
 	console.log(req.body);
 
 	var request_params = {
-		url: SLACK_CHANNEL_HOOKS["grokking_assistant"],
+		url: SLACK_CHANNEL_HOOKS[req.body.channel],
 		// url: "http://e6cabb54.ngrok.io/slack/incoming_events",
 		method: 'POST',
 		headers: {
@@ -87,4 +96,8 @@ exports.send_message = (req, res) => {
       	
  //      	res.json(body); 
  //  	});
+}
+
+exports.get_channels = (req, res) => {
+	res.json(CHANNELS);
 }

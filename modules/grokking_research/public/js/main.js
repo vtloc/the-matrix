@@ -48,6 +48,34 @@ var newEvent = new Vue({
 	}
 })
 
+var newSlackMessage = new Vue({
+	el: '#new_slack',
+	data: {
+		message: '',
+		channel: '',
+		channels: []
+	},
+	methods: {
+		submit: function() {
+			var body = {
+				message: this.message,
+				channel: this.channel
+			};
+
+			Vue.http.post('/slack/send_message', body).then(function(data) {
+				console.log(data);
+
+
+			}, function(error) {
+				console.log(error)
+			});
+
+			this.message = '';
+		}
+	}
+
+})
+
 function reloadEvents() {
 	app.events = []
 
@@ -67,8 +95,27 @@ function reloadEvents() {
 	});
 }
 
+function reloadChannels() {
+	newSlackMessage.channels = [];
+
+	Vue.http.get('/slack/channels?t='+(new Date()), {}).then(function(data) {
+		console.log('channels:', data);
+
+		for(var i=0; i<data.body.length; i++)
+		{
+			var item = data.body[i];
+
+			newSlackMessage.channels.push(item)
+		}
+
+
+	}, function(error) {
+		console.log(error)
+	});
+}
+
 
 window.onload = function() {
 	reloadEvents();
-
+	reloadChannels();
 }

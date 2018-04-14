@@ -18,7 +18,7 @@
 
   <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <h1>Grokking Research Upcoming topics</h1>
           <div id="app">
             <ol>
@@ -28,28 +28,43 @@
               </li>
             </ol>
           </div>
-
-
         </div>
 
-        <div class="col-md-8">
-          <div id="new_event">
+        <div class="col-md-6">
+          <form id="new_event">
             <h1>Register new topic</h1>
 
             <label>Date</label>
             <input v-model="date">
-
+            <br/>
             <label>Member</label>
             <input v-model="member">
-
+            <br/>
             <label>Topic</label>
             <input v-model="topic">
+            <br/>
+            <button v-on:click='submit'>Submit</button>
+          </form>
+
+          <hr/>
+
+          <form id="new_slack">
+            <label>Channel</label>
+
+            <select v-model="channel">
+                    <option v-for="c in channels" v-bind:value="c">
+                      {{ c }}
+                    </option>
+                </select>
+              <br/>
+            <label>Message</label>
+            <textarea v-model="message"></textarea>
+
+            
 
             <button v-on:click='submit'>Submit</button>
-          </div>
+          </form>
         </div>
-
-
     </div>
 
   </div>
