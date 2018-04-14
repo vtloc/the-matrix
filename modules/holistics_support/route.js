@@ -2,7 +2,6 @@ const path = require('path');
 
 const CalendarService = require('../google_services/gcalendar');
 const LocalNotificationService = require('./service_notifications');
-const NotificationService = require('../notifications/services');
 
 const HOLISTICS_SUPPORT_CALENDAR = "holistics.io_mij96drf0tmf3p0pv91pmk7c3s@group.calendar.google.com";
 
@@ -35,8 +34,8 @@ exports.createEvent = (req, res) => {
     email: req.body.email 
   }
 
-  SERVICES.createCalendarEvent(params, function() {
-    CalendarService.send(JSON.stringify({"status": "ok"}));
+  CalendarService.createCalendarEvent(params, function() {
+    res.send(JSON.stringify({"status": "ok"}));
   });
 
 }

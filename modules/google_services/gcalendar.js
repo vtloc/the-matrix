@@ -8,12 +8,11 @@ const OAuth2 = google.auth.OAuth2;
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = path.join(__dirname, 'credentials.json');
-
+const SECRET_PATH = path.join(__dirname, 'client_secret.json');
 
 
 exports.loadGoogleCalendarEvents = (params, callback) => {
-  var secretPath = path.join(__dirname, 'client_secret.json')
-  fs.readFile(secretPath, (err, content) => {
+  fs.readFile(SECRET_PATH, (err, content) => {
     if (err) {
       console.log(err);
       return console.log('Error loading client secret file:', err);
@@ -35,8 +34,7 @@ exports.loadGoogleCalendarEvents = (params, callback) => {
 }
 
 exports.createCalendarEvent = (params, callback) => {
-  var secretPath = path.join(__dirname, 'client_secret.json')
-  fs.readFile(secretPath, (err, content) => {
+  fs.readFile(SECRET_PATH, (err, content) => {
     if (err) {
       console.log(err);
       return console.log('Error loading client secret file:', err);
@@ -45,14 +43,14 @@ exports.createCalendarEvent = (params, callback) => {
     // Authorize a client with credentials, then call the Google Drive API.
     authorize(JSON.parse(content), function(auth) {
 
-      var params = {
+      var params2 = {
         calendarId: params.calendarId,
         date: params.date,
         name: params.name,
         email: params.email
       }
 
-      holisticsInsertSupportEvent(auth, params);
+      insertEvent(auth, params2);
       if(callback) 
           callback();
     });
@@ -145,7 +143,7 @@ function listEvents(auth, params, callback) {
 }
 
 
-function holisticsInsertSupportEvent(auth, params) {
+function insertEvent(auth, params) {
   var event = {
     'summary': params.name,
     'start': {
@@ -188,16 +186,17 @@ function listCalendar(auth) {
   });
 }
 
-function demo() {
-  var secretPath = path.join(__dirname, 'client_secret.json')
-  fs.readFile(secretPath, (err, content) => {
-    if (err) {
-      console.log(err);
-      return console.log('Error loading client secret file:', err);
-    }
 
-    // Authorize a client with credentials, then call the Google Drive API.
-    authorize(JSON.parse(content), listCalendar);
-  });
-}
-demo();
+/**
+Sample code to retrieve the list of calendar for this logged in user
+var secretPath = path.join(__dirname, 'client_secret.json')
+fs.readFile(secretPath, (err, content) => {
+  if (err) {
+    console.log(err);
+    return console.log('Error loading client secret file:', err);
+  }
+
+  // Authorize a client with credentials, then call the Google Drive API.
+  authorize(JSON.parse(content), listCalendar);
+});
+*/

@@ -4,7 +4,7 @@
  */
 
 
-exports.name = "GROKKING HOME"
+exports.name = "Grokking/Home"
 
 exports.setup = function(expressApp) {
 
